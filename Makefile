@@ -5,7 +5,7 @@ UNAME := $(shell uname)
 
 EXTRA_TARGETS = EBOOT.PBP
 
-PSP_EBOOT_TITLE = Wallaper Dumper by Krazynez
+PSP_EBOOT_TITLE = Theme Dumper by Krazynez
 
 all:
 ifeq ($(UNAME), Linux)

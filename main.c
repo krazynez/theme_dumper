@@ -9,7 +9,7 @@
 
 #include "libpspexploit.h"
 
-PSP_MODULE_INFO("Wallpaper_Dumper", 0, 1, 0);
+PSP_MODULE_INFO("Theme_Dumper", 0, 1, 0);
 PSP_MAIN_THREAD_ATTR(0);
 PSP_HEAP_SIZE_KB(20480);
 
@@ -23,33 +23,33 @@ void dump() {
 
 
 	k_tbl->IoAssign("flash1:", "lflash0:0,1", "flashfat1:", 0, NULL, 0);
-	SceUID wallpaper = k_tbl->KernelIOOpen("flash1:/vsh/theme/wallpaper.bmp", PSP_O_RDONLY, 0777);
+	SceUID wallpaper = k_tbl->KernelIOOpen("flash1:/vsh/theme/custom_theme.dat", PSP_O_RDONLY, 0777);
 	if(wallpaper<0) {
 		pspDebugScreenClear();
 		pspDebugScreenSetTextColor(0x0000FF);
 		pspDebugScreenSetXY(2, 2);
-		printf("No wallpaper found quitting ....");	
+		printf("No theme found quitting ....");	
 		k_tbl->IoUnassign("flash1:");
 		k_tbl->KernelDelayThread(5000000);
 		return;
 	}
 
-	SceUID photo = k_tbl->KernelIODopen("ms0:/psp/photo");
-	if(photo)
-		k_tbl->KernelIODclose(photo);
+	SceUID theme = k_tbl->KernelIODopen("ms0:/psp/theme");
+	if(theme)
+		k_tbl->KernelIODclose(theme);
 	else 
-		k_tbl->KernelIOMkdir(photo, 0777);
+		k_tbl->KernelIOMkdir(theme, 0777);
 
 	u8 buf[512];
 	int read;
 	pspDebugScreenClear();
 	pspDebugScreenSetXY(2, 2);
-	printf("Dumping wallpaper.bmp to ms0:/psp/photo/wallpaper.bmp ....");	
+	printf("Dumping custom_theme.dat to ms0:/psp/theme/custom_theme.ptf ....");	
 	k_tbl->KernelDelayThread(4000000);
-	SceUID fd = k_tbl->KernelIOOpen("ms0:/psp/photo/wallpaper.bmp", PSP_O_CREAT | PSP_O_WRONLY | PSP_O_TRUNC, 0777);
+	SceUID fd = k_tbl->KernelIOOpen("ms0:/psp/theme/custom_theme.ptf", PSP_O_CREAT | PSP_O_WRONLY | PSP_O_TRUNC, 0777);
 	if(fd<0) {
-		k_tbl->KernelIOMkdir("ms0:/psp/photo", 0777);
-		fd = k_tbl->KernelIOOpen("ms0:/psp/photo/wallpaper.bmp", PSP_O_CREAT | PSP_O_WRONLY | PSP_O_TRUNC, 0777);
+		k_tbl->KernelIOMkdir("ms0:/psp/theme", 0777);
+		fd = k_tbl->KernelIOOpen("ms0:/psp/theme/custom_theme.ptf", PSP_O_CREAT | PSP_O_WRONLY | PSP_O_TRUNC, 0777);
 	}
 	while((read = k_tbl->KernelIORead(wallpaper, buf, 512))>0)
 		k_tbl->KernelIOWrite(fd, buf, sizeof(buf));
@@ -62,7 +62,7 @@ void dump() {
 	pspXploitSetUserLevel(userLevel);
 	pspDebugScreenClear();
 	pspDebugScreenSetXY(2,2);
-	printf("Succesfully dumped wallapaper ...");
+	printf("Succesfully dumped theme ...");
 	k_tbl->KernelDelayThread(2000000);
 	pspDebugScreenClear();
 	pspDebugScreenSetXY(2,2);
