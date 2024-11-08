@@ -39,7 +39,7 @@ void dump() {
 		k_tbl->IoUnassign("flash1:");
 	}
 
-	if (( wallpaper && flash3_wallpaper) < 0) {
+	if ( wallpaper < 0 && flash3_wallpaper < 0) {
 		pspDebugScreenClear();
 		pspDebugScreenSetTextColor(0x0000FF);
 		pspDebugScreenSetXY(2, 2);
