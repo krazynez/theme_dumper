@@ -7,17 +7,15 @@ EXTRA_TARGETS = EBOOT.PBP
 
 PSP_EBOOT_TITLE = Theme Dumper by Krazynez
 
+PSP_EBOOT_ICON = .res/icon0.png
+
 all:
-ifeq ($(UNAME), Linux)
-	WINEPREFIX="$(shell pwd)/prefix/" wine bin/prxEncrypter.exe $(TARGET).prx
-else
-	$(shell pwd)\bin\prxEncrypter $(TARGET).prx
-endif
-	#pack-pbp $(EXTRA_TARGETS) PARAM.SFO icon0.png NULL pic0.png NULL NULL data.psp NULL
-	pack-pbp $(EXTRA_TARGETS) PARAM.SFO .res/icon0.png NULL NULL NULL NULL data.psp NULL
+	#pack-pbp $(EXTRA_TARGETS) PARAM.SFO .res/icon0.png NULL NULL NULL NULL data.psp NULL
+	python bin/psptools/pack_ms_game.py --vanity "Theme Dumper" EBOOT.PBP EBOOT.PBP
+
 INCDIR = ./inc
 CFLAGS = -O2 -G0 -Wall
-CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
+CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti -fno-int-conversion
 ASFLAGS = $(CFLAGS) -c
 
 LIBDIR = ./lib 
